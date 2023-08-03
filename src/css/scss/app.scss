@@ -1,0 +1,198 @@
+*,*::before,*::after {
+    padding: 0;
+    border: none;
+    outline: none;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --cell-size: 100px;
+    --mark-size: calc(var(--cell-size) * .9);
+    --bg: red;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, blue, red);
+}
+
+.container {
+    .game-title {
+        width: 100%;
+        font-size: 2rem;
+        text-align: center;
+        color: #fff;
+        padding: .15em;
+        margin-bottom: .8em;
+        border-radius: .8em;
+        border: 1px solid rgba($color: #ffffff, $alpha: .1);
+        background-color: rgba($color: #ffffff, $alpha: .05);
+    }
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    border-radius: .8em;
+    border: 1px solid rgba($color: #ffffff, $alpha: .1);
+    background-color: rgba($color: #ffffff, $alpha: .1);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 0 20px rgba($color: #000000, $alpha: .3);
+
+
+    &.x {
+        .cell {
+            &:not(.x,.o){
+                &:hover {
+                    &::before,
+                    &::after {
+                        position: absolute;
+                        content: '';
+                        width: calc( var(--mark-size) * .15 );
+                        height: var(--mark-size);
+                        background-color: rgba($color: #ffffff, $alpha: .3);
+                    }
+                    &::before {
+                        transform: rotate(45deg);
+                    }
+                    &::after {
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+        }
+    }
+    &.o {
+        .cell {
+            &:not(.x,.o){
+                &:hover {
+                    &::before,
+                    &::after {
+                        position: absolute;
+                        content: '';
+                        border-radius: 50%;
+                    }
+
+                    &::before {
+                        width: var(--mark-size);
+                        height: var(--mark-size);
+                        background-color: rgba($color: #ffffff, $alpha: .3);
+                    }
+                    &::after {
+                        width: calc( var(--mark-size) * .7 );
+                        height: calc( var(--mark-size) * .7 );
+                        background-color: rgba($color: #ffffff, $alpha: .2);
+                    }
+                }
+            }
+        }
+    }
+
+    .cell {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: var(--cell-size);
+        height: var(--cell-size);
+        border: 1px solid rgba($color: #ffffff, $alpha: .2);
+        cursor: pointer;
+
+        &:is(:first-child,:nth-child(2),:nth-child(3)) {
+            border-top: none;
+        }
+        &:nth-child(3n + 1) {
+            border-left: none;
+        }
+        &:nth-child(3n + 3) {
+            border-right: none;
+        }
+        &:is(:last-child,:nth-child(7),:nth-child(8)) {
+            border-bottom: none;
+        }
+
+        // The X-marks
+        &.x {
+            &::before,
+            &::after {
+                position: absolute;
+                content: '';
+                width: calc( var(--mark-size) * .15 );
+                height: var(--mark-size);
+                background-color: rgba($color: #ffffff, $alpha: .4);
+            }
+
+            &::before {
+                transform: rotate(45deg);
+            }
+            &::after {
+                transform: rotate(-45deg);
+            }
+        }
+
+        // The O-marks
+        &.o {
+            &::before,
+            &::after {
+                position: absolute;
+                content: '';
+                border-radius: 50%;
+            }
+
+            &::before {
+                width: var(--mark-size);
+                height: var(--mark-size);
+                background-color: rgba($color: #ffffff, $alpha: .4);
+            }
+            &::after {
+                width: calc( var(--mark-size) * .7 );
+                height: calc( var(--mark-size) * .7 );
+                background-color: rgba($color: #ffffff, $alpha: .3);
+            }
+        }
+
+        // if there is a content / marked, we restrict.
+        &.x,&.o {
+            cursor: not-allowed;
+        }
+    }
+}
+
+.winning-message {
+    position: fixed;
+    inset: 0;
+    background-color: rgba($color: #000000, $alpha: .6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-size: 5rem;
+    
+    &.show { display: flex; }
+    
+    button {
+        font-size: 2rem;
+        background-color: rgba($color: #ffffff, $alpha: .25);
+        border: 1px solid rgba($color: #ffffff, $alpha: .4);
+        padding: .2em .5em;
+        border-radius: .8em;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba($color: #000000, $alpha: .6);
+            color: white;
+            border-color: white;
+        }
+    }
+}
