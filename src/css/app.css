@@ -1,0 +1,191 @@
+*, *::before, *::after {
+  padding: 0;
+  border: none;
+  outline: none;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+:root {
+  --cell-size: 100px;
+  --mark-size: calc(var(--cell-size) * .9);
+  --bg: red;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, blue, red);
+}
+
+.container .game-title {
+  width: 100%;
+  font-size: 2rem;
+  text-align: center;
+  color: #fff;
+  padding: 0.15em;
+  margin-bottom: 0.8em;
+  border-radius: 0.8em;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  justify-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 0.8em;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+.board.x .cell:not(.x, .o):hover::before, .board.x .cell:not(.x, .o):hover::after {
+  position: absolute;
+  content: "";
+  width: calc(var(--mark-size) * 0.15);
+  height: var(--mark-size);
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.board.x .cell:not(.x, .o):hover::before {
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+.board.x .cell:not(.x, .o):hover::after {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+.board.o .cell:not(.x, .o):hover::before, .board.o .cell:not(.x, .o):hover::after {
+  position: absolute;
+  content: "";
+  border-radius: 50%;
+}
+.board.o .cell:not(.x, .o):hover::before {
+  width: var(--mark-size);
+  height: var(--mark-size);
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.board.o .cell:not(.x, .o):hover::after {
+  width: calc(var(--mark-size) * 0.7);
+  height: calc(var(--mark-size) * 0.7);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.board .cell {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+.board .cell:is(:first-child, :nth-child(2), :nth-child(3)) {
+  border-top: none;
+}
+.board .cell:nth-child(3n+1) {
+  border-left: none;
+}
+.board .cell:nth-child(3n+3) {
+  border-right: none;
+}
+.board .cell:is(:last-child, :nth-child(7), :nth-child(8)) {
+  border-bottom: none;
+}
+.board .cell.x::before, .board .cell.x::after {
+  position: absolute;
+  content: "";
+  width: calc(var(--mark-size) * 0.15);
+  height: var(--mark-size);
+  background-color: rgba(255, 255, 255, 0.4);
+}
+.board .cell.x::before {
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+.board .cell.x::after {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+.board .cell.o::before, .board .cell.o::after {
+  position: absolute;
+  content: "";
+  border-radius: 50%;
+}
+.board .cell.o::before {
+  width: var(--mark-size);
+  height: var(--mark-size);
+  background-color: rgba(255, 255, 255, 0.4);
+}
+.board .cell.o::after {
+  width: calc(var(--mark-size) * 0.7);
+  height: calc(var(--mark-size) * 0.7);
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.board .cell.x, .board .cell.o {
+  cursor: not-allowed;
+}
+
+.winning-message {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  color: white;
+  font-size: 5rem;
+}
+.winning-message.show {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.winning-message button {
+  font-size: 2rem;
+  background-color: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 0.2em 0.5em;
+  border-radius: 0.8em;
+  cursor: pointer;
+}
+.winning-message button:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border-color: white;
+}
